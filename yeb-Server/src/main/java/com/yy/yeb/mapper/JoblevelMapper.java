@@ -27,5 +27,5 @@ public interface JoblevelMapper extends BaseMapper<Joblevel> {
     void deleteBatchJoblevelByIds(String[] ids);
 
 //   更新职称
-    void updateJoblevelById(Joblevel joblevel);
+    int updateJoblevelById(Joblevel joblevel);
 }

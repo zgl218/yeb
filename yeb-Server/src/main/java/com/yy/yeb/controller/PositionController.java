@@ -34,7 +34,7 @@ public class PositionController {
 
 
     /**
-     * 新增职位信息
+     * 新增职位
      *
      * @param position
      * @return
@@ -47,9 +47,8 @@ public class PositionController {
 
     }
 
-
     /**
-     *删除职位信息
+     *根据id删除职位
      * @param id
      * @return
      */

@@ -20,13 +20,13 @@
        select *
        from  t_position
     </select>
-<!---->
+<!--   新增职位 -->
     <insert id="insertPosition" parameterType="com.yy.yeb.pojo.Position" keyProperty="id" useGeneratedKeys="true">
         insert into t_position
         values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},
         #{createDate,jdbcType=TIMESTAMP},#{enabled,jdbcType=TINYINT})
     </insert>
-
+<!--    根据id删除职位-->
     <delete id="deletePositionById">
         delete from t_position
         where id = #{id}

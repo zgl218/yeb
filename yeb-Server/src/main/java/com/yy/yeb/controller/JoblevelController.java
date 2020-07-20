@@ -77,8 +77,8 @@ public class JoblevelController {
      */
     @ApiOperation(value = "更新职称")
     @PutMapping("/joblevel")
-    public void updateJoblevelById(@RequestBody Joblevel joblevel){
-        joblevelService.updateJoblevelById(joblevel);
+    public int updateJoblevelById(@RequestBody Joblevel joblevel){
+        return joblevelService.updateJoblevelById(joblevel);
     }
 
 

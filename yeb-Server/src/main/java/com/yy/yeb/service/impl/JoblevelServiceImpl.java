@@ -85,7 +85,7 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
      * 更新职称
      */
     @Override
-    public void updateJoblevelById(Joblevel joblevel) {
+    public int updateJoblevelById(Joblevel joblevel) {
 
 
         Joblevel joblevel1 = new Joblevel();
@@ -95,7 +95,7 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
         joblevel1.setEnabled(joblevel.getEnabled());
         joblevel1.setCreateDate(now);
         joblevel1.setId(joblevel.getId());
-        joblevelMapper.updateJoblevelById(joblevel1);
+        return joblevelMapper.updateJoblevelById(joblevel1);
 //            joblevelMapper.updateById(id);
     }
 }

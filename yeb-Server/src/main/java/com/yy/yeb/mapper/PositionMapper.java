@@ -22,7 +22,7 @@ public interface PositionMapper extends BaseMapper<Position> {
     public List<Position> selectPositionAll();
 
     /**
-     * 新增职位信息
+     * 新增职位
      *
      * @param position
      * @return
@@ -31,7 +31,7 @@ public interface PositionMapper extends BaseMapper<Position> {
 
 
     /**
-     * 删除职位信息
+     * 根据id删除职位
      *
      * @param id
      * @return
