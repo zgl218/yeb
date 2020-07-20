@@ -42,11 +42,18 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
     @Override
     public int addJoblevel(Joblevel joblevel) {
 
+        int num = joblevelMapper.findJoblevelByName(joblevel.getName());
+        System.out.println("数据库中此名：======================================"+num);
+
+        if (num>=1){
+            System.out.println("通知前端职称名已存在！！！");
+        }
 //        LocalDateTime now = LocalDateTime.now(Clock.system(ZoneId.of("Asia/Shanghai")));
 
         joblevel.setCreateDate(now);
 
         int i = (int) (Math.random() * 2 + 1);
+//        随机生成新增职称是否启动
         if (i == 1) {
             joblevel.setEnabled(true);
         } else {
@@ -74,9 +81,9 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
      * @param ids
      */
     @Override
-    public void deleteBatchJoblevelByIds(String[] ids) {
+    public int deleteBatchJoblevelByIds(String[] ids) {
 
-        joblevelMapper.deleteBatchJoblevelByIds(ids);
+       return joblevelMapper.deleteBatchJoblevelByIds(ids);
 
 
     }

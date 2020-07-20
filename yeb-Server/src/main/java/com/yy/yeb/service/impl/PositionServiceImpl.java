@@ -26,6 +26,8 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
     @Resource
     private PositionMapper positionMapper;
 
+
+    LocalDateTime now = LocalDateTime.now(Clock.system(ZoneId.of("Asia/Shanghai")));
     /**
      * 查询所有职位
      * @return
@@ -43,7 +45,7 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
      */
     @Override
     public int insertPosition(Position position) {
-        LocalDateTime now = LocalDateTime.now(Clock.system(ZoneId.of("Asia/Shanghai")));
+
         position.setCreateDate(now);
         return positionMapper.insertPosition(position);
     }
@@ -56,6 +58,34 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
     @Override
     public int deletePositionById(Integer id) {
         return positionMapper.deletePositionById(id);
+    }
+
+    /**
+     *
+     * @param ids
+     * @return
+     */
+    @Override
+    public int deletePositionsByIds(String[] ids) {
+        return positionMapper.deletePositionsByIds(ids);
+    }
+
+    /**
+     * 修改职位信息
+     * @param position
+     * @return
+     */
+    @Override
+    public int updatePosition(Position position) {
+        System.out.println(position);
+        Position position1 = new Position();
+        position1.setName(position.getName());
+        position1.setCreateDate(now);
+        position1.setId(position.getId());
+        position1.setEnabled(position.getEnabled());
+        System.out.println(position1);
+        return positionMapper.updatePosition(position1);
+
     }
 
 }

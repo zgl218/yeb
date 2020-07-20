@@ -23,12 +23,13 @@ import java.util.List;
 public class PositionController {
     @Autowired
     private IPositionService positionService;
+
     /**
      * 获取职位列表
      */
     @ApiOperation(value = "职位查询")
     @GetMapping("/pos")
-    public List<Position> selectPositionAll(){
+    public List<Position> selectPositionAll() {
         return positionService.selectPositionAll();
     }
 
@@ -41,7 +42,7 @@ public class PositionController {
      */
     @ApiOperation(value = "新增职位信息")
     @PostMapping("/pos")
-    public int insertPosition(@RequestBody Position position){
+    public int insertPosition(@RequestBody Position position) {
 //        positionService.insertPosition(position);
         return positionService.insertPosition(position);
 
@@ -54,7 +55,33 @@ public class PositionController {
      */
     @ApiOperation(value = "删除职位信息")
     @DeleteMapping("/pos/{id}")
-    public int deletePositionById(@PathVariable Integer id){
+    public int deletePositionById(@PathVariable Integer id) {
         return positionService.deletePositionById(id);
     }
+
+    /**
+     * 批量删除职位信息
+     * @param ids
+     * @return
+     */
+    @ApiOperation(value = "批量删除职位信息")
+    @DeleteMapping("/pos")
+    public int deletePositionsByIds(String[] ids) {
+        System.out.println("======================================" + ids);
+        return positionService.deletePositionsByIds(ids);
+    }
+
+
+    /**
+     * 修改职位信息
+     * @param position
+     * @return
+     */
+    @ApiOperation(value = "修改职位信息")
+    @PutMapping("/pos")
+    public int updatePosition(@RequestBody Position position) {
+        return positionService.updatePosition(position);
+    }
+
+
 }

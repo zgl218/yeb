@@ -38,6 +38,9 @@ public interface PositionMapper extends BaseMapper<Position> {
      */
     public int deletePositionById(Integer id);
 
+    //    批量删除职位信息
+    int deletePositionsByIds(String[] ids);
 
-
+//    修改职位信息
+    int updatePosition(Position position);
 }

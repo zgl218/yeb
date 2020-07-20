@@ -21,9 +21,14 @@
     <select id="findAllJoblevel" resultType="com.yy.yeb.pojo.Joblevel">
         select * from t_joblevel
     </select>
+    <select id="findJoblevelByName" resultType="int">
+
+        select count(1) from t_joblevel where name = #{name}
+
+    </select>
 
 
-<!--    添加职称-->
+    <!--    添加职称-->
     <insert id="addJoblevel">
         insert into t_joblevel (
         <include refid="Base_Column_List">
@@ -69,8 +74,6 @@
 
         </set>
         where id = #{id,jdbcType=INTEGER}
-
-
     </update>
 
 </mapper>

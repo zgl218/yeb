@@ -65,10 +65,10 @@ public class JoblevelController {
      */
     @ApiOperation(value = "批量删除职称")
     @DeleteMapping(value = "/joblevel")
-    public void deleteBatchJoblevelByIds(String[] ids){
+    public int deleteBatchJoblevelByIds(String[] ids){
         System.out.println("======================================"+ids);
 
-        joblevelService.deleteBatchJoblevelByIds(ids);
+        return joblevelService.deleteBatchJoblevelByIds(ids);
     }
 
     /**
