@@ -3,6 +3,8 @@ package com.yy.yeb.mapper;
 import com.yy.yeb.pojo.Employee;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface EmployeeMapper extends BaseMapper<Employee> {
 
+    List<Employee> selectEmployeeAll();
 }
