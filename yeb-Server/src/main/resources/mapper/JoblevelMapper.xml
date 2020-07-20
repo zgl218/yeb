@@ -21,10 +21,9 @@
     <select id="findAllJoblevel" resultType="com.yy.yeb.pojo.Joblevel">
         select * from t_joblevel
     </select>
-    <select id="findJoblevelByName" resultType="int">
-
-        select count(1) from t_joblevel where name = #{name}
-
+<!--    根据用户名查询-->
+    <select id="getJoblevelByName" resultType="com.yy.yeb.pojo.Joblevel">
+            select * from t_joblevel where name = #{name}
     </select>
 
 
@@ -37,7 +36,7 @@
         values (#{id},#{name},#{titleLevel},#{createDate},#{enabled})
     </insert>
 
-
+<!--  删除单条职称-->
     <delete id="deleteSingleJoblevelById">
             delete from t_joblevel where id = #{id}
     </delete>

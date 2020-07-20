@@ -21,12 +21,15 @@
        select *
        from  t_position
     </select>
-<!--   新增职位 -->
+
+<!--    根据名称查询-->
+    <select id="getPositionByName" resultType="com.yy.yeb.pojo.Position">
+        select * from  t_position where name = #{name}
+
+    </select>
+    <!--   新增职位 -->
 
     <insert id="insertPosition" parameterType="com.yy.yeb.pojo.Position" keyProperty="id" useGeneratedKeys="true">
-    $max_id = DB::name('category') ->max('category_id');
-    $max_id++;
-    DB::execute("alter table category auto_increment=".$max_id);
         insert into t_position
         values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},
         #{createDate,jdbcType=TIMESTAMP},#{enabled,jdbcType=TINYINT})

@@ -29,6 +29,6 @@ public interface JoblevelMapper extends BaseMapper<Joblevel> {
 //   更新职称
     int updateJoblevelById(Joblevel joblevel);
 
-//    查询职称通过名字
-    int findJoblevelByName(String name);
+//       查询职称名字查询职称通过名字
+    Joblevel getJoblevelByName(String name);
 }

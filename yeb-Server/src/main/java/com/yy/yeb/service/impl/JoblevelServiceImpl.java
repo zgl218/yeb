@@ -1,11 +1,15 @@
 package com.yy.yeb.service.impl;
 
+import com.yy.yeb.expecitions.ParamsException;
 import com.yy.yeb.pojo.Joblevel;
 import com.yy.yeb.mapper.JoblevelMapper;
 import com.yy.yeb.service.IJoblevelService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yy.yeb.utils.AssertUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.Clock;
@@ -38,41 +42,51 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
     }
 
 
-    //        职称添加
+    /**
+     * 职称添加
+     * @param joblevel
+     * @return
+     */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public int addJoblevel(Joblevel joblevel) {
-
-        int num = joblevelMapper.findJoblevelByName(joblevel.getName());
-        System.out.println("数据库中此名：======================================"+num);
-
-        if (num>=1){
-            System.out.println("通知前端职称名已存在！！！");
-        }
-//        LocalDateTime now = LocalDateTime.now(Clock.system(ZoneId.of("Asia/Shanghai")));
-
-        joblevel.setCreateDate(now);
-
-        int i = (int) (Math.random() * 2 + 1);
-//        随机生成新增职称是否启动
-        if (i == 1) {
-            joblevel.setEnabled(true);
+        System.out.println(joblevel);
+        AssertUtil.isTrue(joblevel == null, "请传入要添加的职称！！");
+        Joblevel joblevelByName = joblevelMapper.getJoblevelByName(joblevel.getName());
+        System.out.println(joblevelByName);
+        if ( joblevelByName != null) {
+            throw new ParamsException("此职称已存在");
         } else {
-            joblevel.setEnabled(false);
+
+            joblevel.setCreateDate(now);
+
+            int i = (int) (Math.random() * 2 + 1);
+//        随机生成新增职称是否启动
+            if (i == 1) {
+                joblevel.setEnabled(true);
+            } else {
+                joblevel.setEnabled(false);
+            }
+            int i1 = joblevelMapper.addJoblevel(joblevel);
+            AssertUtil.isTrue( i1 < 1, "添加职称失败！！");
+            return i1;
         }
-
-        return joblevelMapper.addJoblevel(joblevel);
-
     }
 
-    //    删除单条职称
+    /**
+     * 单条职称删除
+     * @param id
+     * @return
+     */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public int deleteSingleJoblevelById(Integer id) {
-
-//        if (id != null) {
-            return joblevelMapper.deleteSingleJoblevelById(id);
-//        } else {
-//            return ;
-//        }
+        AssertUtil.isTrue(id == null, "请传入要删除的职称！！！");
+//        执行删除操作
+        int i = joblevelMapper.deleteSingleJoblevelById(id);
+        System.out.println("======================================================+"+i);
+        AssertUtil.isTrue(i < 1, "删除失败！！！");
+        return i;
 
     }
 
@@ -81,28 +95,53 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
      * @param ids
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public int deleteBatchJoblevelByIds(String[] ids) {
-
-       return joblevelMapper.deleteBatchJoblevelByIds(ids);
-
-
+        AssertUtil.isTrue(ids == null || ids.length == 0, "请传入要删除的职称！！！");
+        int i = joblevelMapper.deleteBatchJoblevelByIds(ids);
+//        执行删除操作
+        AssertUtil.isTrue(i< ids.length, "删除失败！！！");
+        return i;
     }
 
     /**
      * 更新职称
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public int updateJoblevelById(Joblevel joblevel) {
-
-
         Joblevel joblevel1 = new Joblevel();
+        AssertUtil.isTrue(joblevel == null, "请选择要更新的职称！！");
+        Joblevel joblevelByName = joblevelMapper.getJoblevelByName(joblevel.getName());
 
-        joblevel1.setTitleLevel(joblevel.getTitleLevel());
-        joblevel1.setName(joblevel.getName());
-        joblevel1.setEnabled(joblevel.getEnabled());
-        joblevel1.setCreateDate(now);
-        joblevel1.setId(joblevel.getId());
-        return joblevelMapper.updateJoblevelById(joblevel1);
-//            joblevelMapper.updateById(id);
+        System.out.println(joblevelByName);
+        if (joblevelByName == null) {
+
+            joblevel1.setTitleLevel(joblevel.getTitleLevel());
+            joblevel1.setName(joblevel.getName());
+            joblevel1.setEnabled(joblevel.getEnabled());
+            joblevel1.setCreateDate(now);
+            joblevel1.setId(joblevel.getId());
+            System.out.println(joblevel1);
+            int i = joblevelMapper.updateJoblevelById(joblevel1);
+            AssertUtil.isTrue(i< 1, "更新失败！！");
+            return i;
+        } else if(joblevelByName.getId() != joblevel.getId() && joblevelByName != null) {
+
+          AssertUtil.isTrue(0<1,"职称已存在");
+            return 0;
+        }
+        else {
+            joblevel1.setTitleLevel(joblevel.getTitleLevel());
+            joblevel1.setName(joblevel.getName());
+            joblevel1.setEnabled(joblevel.getEnabled());
+            joblevel1.setCreateDate(now);
+            joblevel1.setId(joblevel.getId());
+            System.out.println(joblevel1);
+            int i = joblevelMapper.updateJoblevelById(joblevel1);
+            AssertUtil.isTrue(i< 1, "更新失败！！");
+            return i;
+        }
     }
+
 }

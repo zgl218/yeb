@@ -43,4 +43,6 @@ public interface PositionMapper extends BaseMapper<Position> {
 
 //    修改职位信息
     int updatePosition(Position position);
+
+    Position getPositionByName(String name);
 }

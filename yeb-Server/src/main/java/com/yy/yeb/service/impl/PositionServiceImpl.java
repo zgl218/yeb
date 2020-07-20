@@ -4,7 +4,10 @@ import com.yy.yeb.pojo.Position;
 import com.yy.yeb.mapper.PositionMapper;
 import com.yy.yeb.service.IPositionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yy.yeb.utils.AssertUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.Clock;
@@ -28,6 +31,7 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
 
 
     LocalDateTime now = LocalDateTime.now(Clock.system(ZoneId.of("Asia/Shanghai")));
+
     /**
      * 查询所有职位
      * @return
@@ -44,8 +48,11 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
      * @return
      */
     @Override
+//    @Transactional(propagation = Propagation.REQUIRED)
     public int insertPosition(Position position) {
-
+        System.out.println(position.getName());
+        System.out.println();
+        System.out.println();
         position.setCreateDate(now);
         return positionMapper.insertPosition(position);
     }
@@ -66,8 +73,12 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
      * @return
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public int deletePositionsByIds(String[] ids) {
-        return positionMapper.deletePositionsByIds(ids);
+        AssertUtil.isTrue(ids == null || ids.length == 0, "请传入要删除的职位");
+        int i = positionMapper.deletePositionsByIds(ids);
+        AssertUtil.isTrue(i < ids.length, "删除失败！！！");
+        return i;
     }
 
     /**
@@ -76,6 +87,7 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
      * @return
      */
     @Override
+//    @Transactional(propagation = Propagation.REQUIRED)
     public int updatePosition(Position position) {
         System.out.println(position);
         Position position1 = new Position();

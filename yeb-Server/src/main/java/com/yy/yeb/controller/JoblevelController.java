@@ -2,7 +2,9 @@ package com.yy.yeb.controller;
 
 
 import com.yy.yeb.pojo.Joblevel;
+import com.yy.yeb.service.IJoblevelService;
 import com.yy.yeb.service.impl.JoblevelServiceImpl;
+import com.yy.yeb.utils.AssertUtil;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Update;
@@ -22,9 +24,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/system/basic")
 public class JoblevelController {
+//
+//    @Autowired
+//    private JoblevelServiceImpl joblevelService;
 
     @Autowired
-    private JoblevelServiceImpl joblevelService;
+    private IJoblevelService joblevelService;
 
     /**
      * 查询所有职称
@@ -42,7 +47,6 @@ public class JoblevelController {
     @ApiOperation(value = "职称添加")
     @PostMapping("/joblevel")
     public int addJoblevel(@RequestBody Joblevel joblevel) {
-        System.out.println("======================================="+joblevel);
             return  joblevelService.addJoblevel(joblevel);
     }
 
@@ -66,8 +70,6 @@ public class JoblevelController {
     @ApiOperation(value = "批量删除职称")
     @DeleteMapping(value = "/joblevel")
     public int deleteBatchJoblevelByIds(String[] ids){
-        System.out.println("======================================"+ids);
-
         return joblevelService.deleteBatchJoblevelByIds(ids);
     }
 
@@ -78,10 +80,8 @@ public class JoblevelController {
     @ApiOperation(value = "更新职称")
     @PutMapping("/joblevel")
     public int updateJoblevelById(@RequestBody Joblevel joblevel){
+
         return joblevelService.updateJoblevelById(joblevel);
     }
-
-
-
 
 }

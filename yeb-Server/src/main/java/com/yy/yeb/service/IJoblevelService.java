@@ -28,4 +28,5 @@ public interface IJoblevelService extends IService<Joblevel> {
     int deleteBatchJoblevelByIds(String []ids);
 //    更新职称
     int updateJoblevelById(Joblevel joblevel);
+
 }
