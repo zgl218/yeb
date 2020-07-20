@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yy.yeb.mapper.PositionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yy.yeb.pojo.Position">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="createDate" property="createDate" />
+        <result column="enabled" property="enabled" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, createDate, enabled
+    </sql>
+
+
+    <select id="selectPositionAll"  resultMap="BaseResultMap">
+       select *
+       from  t_position
+    </select>
+<!---->
+    <insert id="insertPosition" parameterType="com.yy.yeb.pojo.Position" keyProperty="id" useGeneratedKeys="true">
+        insert into t_position
+        values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},
+        #{createDate,jdbcType=TIMESTAMP},#{enabled,jdbcType=TINYINT})
+    </insert>
+
+    <delete id="deletePositionById">
+        delete from t_position
+        where id = #{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yy.yeb.mapper.JoblevelMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yy.yeb.pojo.Joblevel">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="titleLevel" property="titleLevel" />
+        <result column="createDate" property="createDate" />
+        <result column="enabled" property="enabled" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, titleLevel, createDate, enabled
+    </sql>
+
+
+    <!--    查询所有职称-->
+    <select id="findAllJoblevel" resultType="com.yy.yeb.pojo.Joblevel">
+        select * from t_joblevel
+    </select>
+
+
+<!--    添加职称-->
+    <insert id="addJoblevel">
+        insert into t_joblevel (
+        <include refid="Base_Column_List">
+
+        </include>)
+        values (#{id},#{name},#{titleLevel},#{createDate},#{enabled})
+    </insert>
+
+
+    <delete id="deleteSingleJoblevelById">
+            delete from t_joblevel where id = #{id}
+    </delete>
+<!--    批量删除职称-->
+    <delete id="deleteBatchJoblevelByIds">
+        delete from t_joblevel
+        where
+        id
+        in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+<!--    更新职称    参数是jolevel对象-->
+    <update id="updateJoblevelById">
+        update t_joblevel
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="titleLevel != null">
+                titleLevel = #{titleLevel},
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate},
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled},
+            </if>
+
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+
+
+    </update>
+
+</mapper>
