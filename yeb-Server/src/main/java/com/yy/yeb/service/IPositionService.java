@@ -21,7 +21,7 @@ public interface IPositionService extends IService<Position> {
      */
     public List<Position> selectPositionAll();
     /**
-     * 添加保存职位信息
+     * 新增职位
      *
      * @param position 职位信息
      * @return
@@ -29,11 +29,16 @@ public interface IPositionService extends IService<Position> {
     public int insertPosition(Position position);
 
     /**
-     * 删除职位信息
+     * 根据id删除职位
      *
      * @param id 职位ID
      * @return
      */
     public int deletePositionById(Integer id);
 
+//    批量删除职位信息
+    int deletePositionsByIds(String[] ids);
+
+//    修改职位信息
+    int updatePosition(Position position);
 }

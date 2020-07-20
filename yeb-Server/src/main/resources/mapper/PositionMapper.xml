@@ -16,20 +16,55 @@
     </sql>
 
 
+
     <select id="selectPositionAll"  resultMap="BaseResultMap">
        select *
        from  t_position
     </select>
-<!---->
+<!--   新增职位 -->
+
     <insert id="insertPosition" parameterType="com.yy.yeb.pojo.Position" keyProperty="id" useGeneratedKeys="true">
+    $max_id = DB::name('category') ->max('category_id');
+    $max_id++;
+    DB::execute("alter table category auto_increment=".$max_id);
         insert into t_position
         values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},
         #{createDate,jdbcType=TIMESTAMP},#{enabled,jdbcType=TINYINT})
     </insert>
-
+<!--    根据id删除职位-->
     <delete id="deletePositionById">
         delete from t_position
         where id = #{id}
     </delete>
 
+<!--批量删除职位-->
+    <delete id="deletePositionsByIds">
+        delete from t_position
+        where id in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+
+    </delete>
+
+
+<!--  修改职位信息 -->
+    <update id="updatePosition">
+        update t_position
+        <set>
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate},
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

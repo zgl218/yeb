@@ -65,10 +65,10 @@ public class JoblevelController {
      */
     @ApiOperation(value = "批量删除职称")
     @DeleteMapping(value = "/joblevel")
-    public void deleteBatchJoblevelByIds(String[] ids){
+    public int deleteBatchJoblevelByIds(String[] ids){
         System.out.println("======================================"+ids);
 
-        joblevelService.deleteBatchJoblevelByIds(ids);
+        return joblevelService.deleteBatchJoblevelByIds(ids);
     }
 
     /**
@@ -77,8 +77,8 @@ public class JoblevelController {
      */
     @ApiOperation(value = "更新职称")
     @PutMapping("/joblevel")
-    public void updateJoblevelById(@RequestBody Joblevel joblevel){
-        joblevelService.updateJoblevelById(joblevel);
+    public int updateJoblevelById(@RequestBody Joblevel joblevel){
+        return joblevelService.updateJoblevelById(joblevel);
     }
 
 
