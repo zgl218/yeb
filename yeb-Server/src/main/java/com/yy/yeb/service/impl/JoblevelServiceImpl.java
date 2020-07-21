@@ -121,7 +121,6 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
 
     }
 
-
     /**
      * 更新职称
      */
@@ -161,7 +160,7 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
         }
     }
 
-//    更新结果获取
+//    更新结果获取方法抽取
     private RespBean getRespBeanWithUpdate(int i, String s) {
         if (i == 1) {
             return RespBean.success(s);

@@ -77,6 +77,7 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
      * @return
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public RespBean deletePositionById(Integer id) {
 
         if (id == null) {
@@ -120,7 +121,7 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
      * @return
      */
     @Override
-//    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED)
     public RespBean updatePosition(Position position) {
         if (position == null) {
             return RespBean.error("请选择要更新的职位！！");
