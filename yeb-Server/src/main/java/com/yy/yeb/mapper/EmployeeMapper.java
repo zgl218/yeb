@@ -13,4 +13,14 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface EmployeeMapper extends BaseMapper<Employee> {
 
+//         处理关联员工   职位删除将相关职位员工职位信息设置为null
+    void updateEmployeeByPosId(Integer id);
+
+//         处理关联员工   职位删除将相关职位员工职位信息设置为null
+    void updateEmployeeByPosIds(String[] ids);
+
+//         处理关联员工   职位删除将相关职位员工职称信息设置为null
+    void updateEmployeeByJobLevelId(Integer id);
+//         处理关联员工   职位删除将相关职位员工职称信息设置为null
+    void updateEmployeeByJobLevelIds(String[] ids);
 }

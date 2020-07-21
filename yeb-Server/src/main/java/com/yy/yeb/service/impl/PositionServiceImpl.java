@@ -1,5 +1,6 @@
 package com.yy.yeb.service.impl;
 
+import com.yy.yeb.mapper.EmployeeMapper;
 import com.yy.yeb.pojo.Joblevel;
 import com.yy.yeb.pojo.Position;
 import com.yy.yeb.mapper.PositionMapper;
@@ -30,6 +31,8 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
     @Resource
     private PositionMapper positionMapper;
 
+    @Resource
+    private EmployeeMapper employeeMapper;
 
     LocalDateTime now;
 
@@ -62,7 +65,7 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
                 return RespBean.error("此职位已存在！！！");
             } else {
 //                设置添加时间
-                 now = LocalDateTime.now(Clock.system(ZoneId.of("Asia/Shanghai")));
+                now = LocalDateTime.now(Clock.system(ZoneId.of("Asia/Shanghai")));
                 position.setCreateDate(now);
 //                执行添加操作
                 int i1 = positionMapper.insertPosition(position);
@@ -83,10 +86,14 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public RespBean deletePositionById(Integer id) {
-        
+
         if (id == null) {
             return RespBean.error("请选择要删除的职称！！！");
         } else {
+
+//            先处理被关联的员工
+            updateEmployeeByPosId(id);
+
             //        执行删除操作
             int i = positionMapper.deletePositionById(id);
             if (i == 1) {
@@ -98,7 +105,15 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
     }
 
     /**
-     *
+     * 删除员工关联（posid设为null）
+     * @param id
+     */
+    private void updateEmployeeByPosId(Integer id) {
+        employeeMapper.updateEmployeeByPosId(id);
+    }
+
+    /**
+     *  批量删除职位
      * @param ids
      * @return
      */
@@ -106,8 +121,11 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
     @Transactional(propagation = Propagation.REQUIRED)
     public RespBean deletePositionsByIds(String[] ids) {
         if (ids == null || ids.length == 0) {
-            return RespBean.error("请选择要删除的职称！！！");
+            return RespBean.error("请选择要删除的职位！！！");
         } else {
+
+//
+            employeeMapper.updateEmployeeByPosIds(ids);
             //        执行删除操作
             int i = positionMapper.deletePositionsByIds(ids);
 //            删除操作结果判断

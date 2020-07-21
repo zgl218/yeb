@@ -1,5 +1,6 @@
 package com.yy.yeb.service.impl;
 
+import com.yy.yeb.mapper.EmployeeMapper;
 import com.yy.yeb.pojo.Joblevel;
 import com.yy.yeb.mapper.JoblevelMapper;
 import com.yy.yeb.pojo.RespBean;
@@ -31,6 +32,8 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
     @Resource
     private JoblevelMapper joblevelMapper;
 
+    @Resource
+    private EmployeeMapper employeeMapper;
     //    当前时间
     LocalDateTime now;
 
@@ -90,6 +93,10 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
         if (id == null) {
             return RespBean.error("请选择要删除的职称！！！");
         } else {
+
+//         处理关联员工   职称删除将相关职位员工职称信息设置为null
+            employeeMapper.updateEmployeeByJobLevelId(id);
+
             //        执行删除操作
             int i = joblevelMapper.deleteSingleJoblevelById(id);
             if (i == 1) {
@@ -111,6 +118,10 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
         if (ids == null || ids.length == 0) {
             return RespBean.error("请选择要删除的职称！！！");
         } else {
+
+            //     处理关联员工   职称删除将相关职位员工职称信息设置为null
+            employeeMapper.updateEmployeeByJobLevelIds(ids);
+
             //        执行删除操作
             int i = joblevelMapper.deleteBatchJoblevelByIds(ids);
 
