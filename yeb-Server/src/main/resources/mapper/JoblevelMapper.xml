@@ -74,5 +74,8 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
+    <select id="continuousKey">
+        ALTER TABLE `t_joblevel` AUTO_INCREMENT = 1;
+    </select>
 
 </mapper>

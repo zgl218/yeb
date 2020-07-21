@@ -16,7 +16,6 @@
     </sql>
 
 
-
     <select id="selectPositionAll"  resultMap="BaseResultMap">
        select *
        from  t_position
@@ -70,4 +69,9 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
+
+<!-- id不连续问题解决-->
+    <select id="continuousKey">
+            ALTER TABLE `t_position` AUTO_INCREMENT = 1;
+    </select>
 </mapper>

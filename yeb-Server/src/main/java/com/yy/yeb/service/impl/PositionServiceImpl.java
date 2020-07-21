@@ -31,7 +31,7 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
     private PositionMapper positionMapper;
 
 
-    LocalDateTime now = LocalDateTime.now(Clock.system(ZoneId.of("Asia/Shanghai")));
+    LocalDateTime now;
 
     /**
      * 查询所有职位
@@ -51,6 +51,9 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public RespBean insertPosition(Position position) {
+//        id不连续问题解决
+        positionMapper.continuousKey();
+//        判断并执行操作
         if (position == null) {
             return RespBean.error("请输入要添加的职位");
         } else {
@@ -59,6 +62,7 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
                 return RespBean.error("此职位已存在！！！");
             } else {
 //                设置添加时间
+                 now = LocalDateTime.now(Clock.system(ZoneId.of("Asia/Shanghai")));
                 position.setCreateDate(now);
 //                执行添加操作
                 int i1 = positionMapper.insertPosition(position);
@@ -79,7 +83,7 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public RespBean deletePositionById(Integer id) {
-
+        
         if (id == null) {
             return RespBean.error("请选择要删除的职称！！！");
         } else {
@@ -126,25 +130,26 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
         if (position == null) {
             return RespBean.error("请选择要更新的职位！！");
         }
+//        通过职位名称在数据库中查询
         Position positionByName = positionMapper.getPositionByName(position.getName());
+        now = LocalDateTime.now(Clock.system(ZoneId.of("Asia/Shanghai")));
         position.setCreateDate(now);
-        position.setId(position.getId());
+//        position.setId(position.getId());
         int i;
 //        数据库中没有此职称
         if (positionByName == null) {
             i = positionMapper.updatePosition(position);
             if (i == 1) {
                 return RespBean.success("修改成功！！！");
-
             } else {
                 return RespBean.error("修改失败！！！");
             }
         }
 //        数据库中有次职称并且不是要更新记录
         else if (positionByName.getId() != position.getId() && positionByName != null) {
-
             return RespBean.error("此职称已存在！！！");
         }
+
 //        数据库中有此职称并且是当前职称
         else {
             i = positionMapper.updatePosition(position);

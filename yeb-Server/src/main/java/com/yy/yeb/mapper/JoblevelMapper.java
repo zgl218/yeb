@@ -31,4 +31,6 @@ public interface JoblevelMapper extends BaseMapper<Joblevel> {
 
 //       查询职称名字查询职称通过名字
     Joblevel getJoblevelByName(String name);
+
+    void continuousKey();
 }

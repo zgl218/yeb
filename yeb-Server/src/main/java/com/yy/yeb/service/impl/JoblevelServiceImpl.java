@@ -32,7 +32,7 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
     private JoblevelMapper joblevelMapper;
 
     //    当前时间
-    LocalDateTime now = LocalDateTime.now(Clock.system(ZoneId.of("Asia/Shanghai")));
+    LocalDateTime now;
 
     //    查询所有职称
     @Override
@@ -49,7 +49,7 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public RespBean addJoblevel(Joblevel joblevel) {
-
+        joblevelMapper.continuousKey();
         if (joblevel == null) {
             return RespBean.error("请输入要添加的职称");
         } else {
@@ -58,6 +58,7 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
                 return RespBean.error("此职称已存在");
             } else {
 //                  设置添加时间
+                now = LocalDateTime.now(Clock.system(ZoneId.of("Asia/Shanghai")));
                 joblevel.setCreateDate(now);
                 int i = (int) (Math.random() * 2 + 1);
 //              随机生成新增职称是否启用
@@ -112,6 +113,7 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
         } else {
             //        执行删除操作
             int i = joblevelMapper.deleteBatchJoblevelByIds(ids);
+
             if (i == ids.length) {
                 return RespBean.success("删除成功！！！");
             } else {
@@ -132,6 +134,7 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
         }
         Joblevel joblevelByName = joblevelMapper.getJoblevelByName(joblevel.getName());
 
+        now = LocalDateTime.now(Clock.system(ZoneId.of("Asia/Shanghai")));
         joblevel.setCreateDate(now);
         joblevel.setId(joblevel.getId());
         int i;
@@ -160,7 +163,7 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
         }
     }
 
-//    更新结果获取方法抽取
+    //    更新结果获取方法抽取
     private RespBean getRespBeanWithUpdate(int i, String s) {
         if (i == 1) {
             return RespBean.success(s);
