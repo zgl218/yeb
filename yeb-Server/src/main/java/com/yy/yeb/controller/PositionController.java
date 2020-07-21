@@ -2,6 +2,7 @@ package com.yy.yeb.controller;
 
 
 import com.yy.yeb.pojo.Position;
+import com.yy.yeb.pojo.RespBean;
 import com.yy.yeb.service.IPositionService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +43,8 @@ public class PositionController {
      */
     @ApiOperation(value = "新增职位信息")
     @PostMapping("/pos")
-    public int insertPosition(@RequestBody Position position) {
-//        positionService.insertPosition(position);
+    public RespBean insertPosition(@RequestBody Position position) {
+
         return positionService.insertPosition(position);
 
     }
@@ -55,7 +56,7 @@ public class PositionController {
      */
     @ApiOperation(value = "删除职位信息")
     @DeleteMapping("/pos/{id}")
-    public int deletePositionById(@PathVariable Integer id) {
+    public RespBean deletePositionById(@PathVariable Integer id) {
         return positionService.deletePositionById(id);
     }
 
@@ -66,8 +67,7 @@ public class PositionController {
      */
     @ApiOperation(value = "批量删除职位信息")
     @DeleteMapping("/pos")
-    public int deletePositionsByIds(String[] ids) {
-        System.out.println("======================================" + ids);
+    public RespBean deletePositionsByIds(String[] ids) {
         return positionService.deletePositionsByIds(ids);
     }
 
@@ -79,7 +79,7 @@ public class PositionController {
      */
     @ApiOperation(value = "修改职位信息")
     @PutMapping("/pos")
-    public int updatePosition(@RequestBody Position position) {
+    public RespBean updatePosition(@RequestBody Position position) {
         return positionService.updatePosition(position);
     }
 

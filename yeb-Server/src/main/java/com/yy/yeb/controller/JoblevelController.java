@@ -2,9 +2,10 @@ package com.yy.yeb.controller;
 
 
 import com.yy.yeb.pojo.Joblevel;
+import com.yy.yeb.pojo.RespBean;
 import com.yy.yeb.service.IJoblevelService;
 import com.yy.yeb.service.impl.JoblevelServiceImpl;
-import com.yy.yeb.utils.AssertUtil;
+
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Update;
@@ -46,7 +47,7 @@ public class JoblevelController {
      */
     @ApiOperation(value = "职称添加")
     @PostMapping("/joblevel")
-    public int addJoblevel(@RequestBody Joblevel joblevel) {
+    public RespBean addJoblevel(@RequestBody Joblevel joblevel) {
             return  joblevelService.addJoblevel(joblevel);
     }
 
@@ -57,7 +58,7 @@ public class JoblevelController {
      */
     @ApiOperation(value = "删除职称")
     @DeleteMapping("/joblevel/{id}")
-    public int deleteSingleJoblevelById(@PathVariable Integer id){
+    public RespBean deleteSingleJoblevelById(@PathVariable Integer id){
 
         return joblevelService.deleteSingleJoblevelById(id);
     }
@@ -69,7 +70,7 @@ public class JoblevelController {
      */
     @ApiOperation(value = "批量删除职称")
     @DeleteMapping(value = "/joblevel")
-    public int deleteBatchJoblevelByIds(String[] ids){
+    public RespBean deleteBatchJoblevelByIds(String[] ids){
         return joblevelService.deleteBatchJoblevelByIds(ids);
     }
 
@@ -79,7 +80,7 @@ public class JoblevelController {
      */
     @ApiOperation(value = "更新职称")
     @PutMapping("/joblevel")
-    public int updateJoblevelById(@RequestBody Joblevel joblevel){
+    public RespBean updateJoblevelById(@RequestBody Joblevel joblevel){
 
         return joblevelService.updateJoblevelById(joblevel);
     }

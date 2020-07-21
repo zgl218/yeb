@@ -2,6 +2,7 @@ package com.yy.yeb.service;
 
 import com.yy.yeb.pojo.Position;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yy.yeb.pojo.RespBean;
 
 import java.util.List;
 
@@ -20,13 +21,14 @@ public interface IPositionService extends IService<Position> {
      * @return 职位列表
      */
     public List<Position> selectPositionAll();
+
     /**
      * 新增职位
      *
      * @param position 职位信息
      * @return
      */
-    public int insertPosition(Position position);
+    public RespBean insertPosition(Position position);
 
     /**
      * 根据id删除职位
@@ -34,11 +36,11 @@ public interface IPositionService extends IService<Position> {
      * @param id 职位ID
      * @return
      */
-    public int deletePositionById(Integer id);
+    public RespBean deletePositionById(Integer id);
 
-//    批量删除职位信息
-    int deletePositionsByIds(String[] ids);
+    //    批量删除职位信息
+    RespBean deletePositionsByIds(String[] ids);
 
-//    修改职位信息
-    int updatePosition(Position position);
+    //    修改职位信息
+    RespBean updatePosition(Position position);
 }

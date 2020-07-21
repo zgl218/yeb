@@ -1,10 +1,11 @@
 package com.yy.yeb.service.impl;
 
+import com.yy.yeb.pojo.Joblevel;
 import com.yy.yeb.pojo.Position;
 import com.yy.yeb.mapper.PositionMapper;
+import com.yy.yeb.pojo.RespBean;
 import com.yy.yeb.service.IPositionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.yy.yeb.utils.AssertUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,13 +49,26 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
      * @return
      */
     @Override
-//    @Transactional(propagation = Propagation.REQUIRED)
-    public int insertPosition(Position position) {
-        System.out.println(position.getName());
-        System.out.println();
-        System.out.println();
-        position.setCreateDate(now);
-        return positionMapper.insertPosition(position);
+    @Transactional(propagation = Propagation.REQUIRED)
+    public RespBean insertPosition(Position position) {
+        if (position == null) {
+            return RespBean.error("请输入要添加的职位");
+        } else {
+            Position positionByName = positionMapper.getPositionByName(position.getName());
+            if (positionByName != null) {
+                return RespBean.error("此职位已存在！！！");
+            } else {
+//                设置添加时间
+                position.setCreateDate(now);
+//                执行添加操作
+                int i1 = positionMapper.insertPosition(position);
+                if (i1 == 1) {
+                    return RespBean.success("此职位添加成功！");
+                } else {
+                    return RespBean.error("此职位添加失败！");
+                }
+            }
+        }
     }
 
     /**
@@ -63,8 +77,19 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
      * @return
      */
     @Override
-    public int deletePositionById(Integer id) {
-        return positionMapper.deletePositionById(id);
+    public RespBean deletePositionById(Integer id) {
+
+        if (id == null) {
+            return RespBean.error("请选择要删除的职称！！！");
+        } else {
+            //        执行删除操作
+            int i = positionMapper.deletePositionById(id);
+            if (i == 1) {
+                return RespBean.success("删除职位成功！！！");
+            } else {
+                return RespBean.error("删除职位失败！！！");
+            }
+        }
     }
 
     /**
@@ -74,11 +99,19 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public int deletePositionsByIds(String[] ids) {
-        AssertUtil.isTrue(ids == null || ids.length == 0, "请传入要删除的职位");
-        int i = positionMapper.deletePositionsByIds(ids);
-        AssertUtil.isTrue(i < ids.length, "删除失败！！！");
-        return i;
+    public RespBean deletePositionsByIds(String[] ids) {
+        if (ids == null || ids.length == 0) {
+            return RespBean.error("请选择要删除的职称！！！");
+        } else {
+            //        执行删除操作
+            int i = positionMapper.deletePositionsByIds(ids);
+//            删除操作结果判断
+            if (i == ids.length) {
+                return RespBean.success("删除成功！！！");
+            } else {
+                return RespBean.error("删除失败！！！");
+            }
+        }
     }
 
     /**
@@ -88,15 +121,41 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
      */
     @Override
 //    @Transactional(propagation = Propagation.REQUIRED)
-    public int updatePosition(Position position) {
-        System.out.println(position);
-        Position position1 = new Position();
-        position1.setName(position.getName());
-        position1.setCreateDate(now);
-        position1.setId(position.getId());
-        position1.setEnabled(position.getEnabled());
-        System.out.println(position1);
-        return positionMapper.updatePosition(position1);
+    public RespBean updatePosition(Position position) {
+        if (position == null) {
+            return RespBean.error("请选择要更新的职位！！");
+        }
+        Position positionByName = positionMapper.getPositionByName(position.getName());
+        position.setCreateDate(now);
+        position.setId(position.getId());
+        int i;
+//        数据库中没有此职称
+        if (positionByName == null) {
+            i = positionMapper.updatePosition(position);
+            if (i == 1) {
+                return RespBean.success("修改成功！！！");
+
+            } else {
+                return RespBean.error("修改失败！！！");
+            }
+        }
+//        数据库中有次职称并且不是要更新记录
+        else if (positionByName.getId() != position.getId() && positionByName != null) {
+
+            return RespBean.error("此职称已存在！！！");
+        }
+//        数据库中有此职称并且是当前职称
+        else {
+            i = positionMapper.updatePosition(position);
+//            如果没做任何修改
+            if (position.getName().equals(positionByName.getName())) {
+                return RespBean.success("更新成功，但您并没有做任何修改！！");
+            }
+//            做了修改
+            else {
+                return RespBean.success("更新成功！！");
+            }
+        }
 
     }
 
