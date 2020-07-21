@@ -5,6 +5,7 @@ import com.yy.yeb.pojo.Admin;
 import com.yy.yeb.pojo.RespBean;
 import com.yy.yeb.pojo.Role;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public interface IAdminService extends IService<Admin> {
      * @param password
      * @return
      */
-    RespBean login(String username, String password);
+    RespBean login(String username, String password, String code,HttpServletRequest request);
 
 
     /**

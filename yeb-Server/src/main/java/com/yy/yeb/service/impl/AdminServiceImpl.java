@@ -1,6 +1,7 @@
 package com.yy.yeb.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yy.yeb.config.security.JwtTokenUtil;
 import com.yy.yeb.mapper.AdminMapper;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +57,11 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
      * @return
      */
     @Override
-    public RespBean login(String username, String password) {
+    public RespBean login(String username, String password, String code,HttpServletRequest request) {
+        String captcha = (String) request.getSession().getAttribute("captcha");
+        if (StringUtils.isBlank(code) || !captcha.equals(code)) {
+            return RespBean.error("验证码填写错误！");
+        }
         //登录
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         //判断用户名或密码是否正确
