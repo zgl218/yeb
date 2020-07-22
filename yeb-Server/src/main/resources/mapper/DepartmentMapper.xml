@@ -16,5 +16,8 @@
     <sql id="Base_Column_List">
         id, name, parentId, depPath, enabled, isParent
     </sql>
+    <select id="queryAllDepartment" resultType="com.yy.yeb.pojo.Department">
+        select * from t_department
+    </select>
 
 </mapper>
