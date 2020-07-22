@@ -26,4 +26,25 @@
           ar.adminId = #{adminId}
     </select>
 
+    <!-- 根据role_name查询数据是否存在，做添加校验：不能添加重复角色 lhr -->
+    <select id="selectByName" resultType="com.yy.yeb.pojo.Role">
+        SELECT
+            <include refid="Base_Column_List"></include>
+        FROM
+            t_role
+        WHERE
+                name like "%"#{roleName}
+
+    </select>
+
+    <!-- 根据role_nameZh查询数据是否存在，做添加校验：不能添加重复角色 lhr -->
+    <select id="selectByNameZh" resultType="com.yy.yeb.pojo.Role">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        FROM
+        t_role
+        WHERE
+        nameZh=#{roleNameZh}
+    </select>
+
 </mapper>

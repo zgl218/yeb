@@ -69,7 +69,9 @@
           m1.id = m2.parentId
           AND m2.id = mr.mid
           AND mr.rid = ar.rid
-          AND ar.adminId = #{id}
+          <if test="id != null and id != ''">
+              AND ar.adminId = #{id}
+          </if>
         ORDER BY m.id
   </select>
 
@@ -92,5 +94,22 @@
 			ORDER BY
 				m.id
     </select>
+
+    <!--  查询该角色权限所具有的权限  -->
+    <select id="selectMuesById" resultType="java.lang.Integer">
+		select mid from t_menu_role where rid=#{rid};
+    </select>
+
+    <!--  删除该角色中间表所有权限  -->
+    <delete id="deleteMenusRole">
+        DELETE FROM t_menu_role WHERE rid = #{rid}
+    </delete>
+    <!--  添加该角色中间表所有权限  -->
+    <insert id="insertMenusRole">
+        INSERT INTO t_menu_role (mid,rid) VALUES
+        <foreach collection="mids" separator="," item="mid">
+            (#{mid},#{rid})
+        </foreach>
+    </insert>
 
 </mapper>
