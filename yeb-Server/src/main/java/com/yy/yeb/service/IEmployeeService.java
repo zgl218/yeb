@@ -2,8 +2,8 @@ package com.yy.yeb.service;
 
 import com.yy.yeb.pojo.Employee;
 import com.baomidou.mybatisplus.extension.service.IService;
-
-import java.util.List;
+import com.yy.yeb.query.EmployeeQuery;
+import java.util.Map;
 
 /**
  * <p>
@@ -14,11 +14,20 @@ import java.util.List;
  * @since 2020-07-17
  */
 public interface IEmployeeService extends IService<Employee> {
+    Map<String, Object> queryEmployeeForTable(EmployeeQuery employeeQuery);
+
 
     /**
-     * 查询所有员工信息
-     *
-     * @return 员工信息列表
+     * 通过员工名查询员工对象
+     * @param name
+     * @return
      */
-    public List<Employee> selectEmployeeAll();
+    Employee queryEmployeeByName(String name);
+
+    /**
+     * 通过员工id删除员工信息
+     * @param id
+     * @return
+     */
+    int deletePositionById(Integer id);
 }
