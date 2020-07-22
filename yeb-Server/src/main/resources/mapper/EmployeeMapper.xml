@@ -3,7 +3,7 @@
 <mapper namespace="com.yy.yeb.mapper.EmployeeMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.yy.yeb.pojo.Employee">
+    <resultMap id="BaseResultMap" type="com.yy.yeb.pojo.Employee" >
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="gender" property="gender" />
@@ -34,7 +34,6 @@
         <result column="workAge" property="workAge" />
         <result column="salaryId" property="salaryId" />
     </resultMap>
-
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, name, gender, birthday, idCard, wedlock, nationId, nativePlace, politicId, email, phone, address, departmentId, jobLevelId, posId, engageForm, tiptopDegree, specialty, school, beginDate, workState, workID, contractTerm, conversionTime, notWorkDate, beginContract, endContract, workAge, salaryId
@@ -69,6 +68,35 @@
         </foreach>
 
     </update>
+
+<!--    根据单个职称id查询关联员工数量-->
+    <select id="getNumByEmpJoblevleId" resultType="java.lang.Integer">
+
+        select count(1) from  t_employee where jobLevelId = #{id}
+
+    </select>
+<!--    根据多个职称id查询关联员工数量-->
+    <select id="getNumByEmpJoblevleIds" resultType="java.lang.Integer">
+        select count(1) from  t_employee where jobLevelId in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+
+    </select>
+<!--    根据单个职位id查询关联员工数量-->
+    <select id="getNumByEmpPosId" resultType="java.lang.Integer">
+
+        select count(1) from  t_employee where posId = #{id}
+
+    </select>
+<!--    根据多个职位id查询关联员工数量-->
+    <select id="getNumByEmpPosIds" resultType="java.lang.Integer">
+
+        select count(1) from  t_employee where posId in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
 
 
 </mapper>

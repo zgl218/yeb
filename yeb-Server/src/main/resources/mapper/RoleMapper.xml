@@ -15,7 +15,7 @@
     </sql>
 
 
-    <!-- 根据用户获取角色列表 -->
+    <!-- 根据用户id获取角色列表 -->
     <select id="getRoles" resultType="com.yy.yeb.pojo.Role">
         SELECT
           r.*

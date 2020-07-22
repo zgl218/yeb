@@ -35,6 +35,7 @@ public interface PositionMapper extends BaseMapper<Position> {
      * @param id
      * @return
      */
+//    通过id删除职位
     public int deletePositionById(Integer id);
 
     //    批量删除职位信息
@@ -42,8 +43,11 @@ public interface PositionMapper extends BaseMapper<Position> {
 
 //    修改职位信息
     int updatePosition(Position position);
+
 //   通过职位名称查询职位
     Position getPositionByName(String name);
+
     //        id不连续问题解决
     void continuousKey();
+
 }

@@ -1,10 +1,13 @@
 package com.yy.yeb.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -115,6 +118,5 @@ public class Employee implements Serializable {
 
     @ApiModelProperty(value = "工资账套ID")
     private Integer salaryId;
-
 
 }

@@ -86,22 +86,36 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public RespBean deletePositionById(Integer id) {
-
         if (id == null) {
-            return RespBean.error("请选择要删除的职称！！！");
+            return RespBean.error("请选择要删除的职位！！！");
         } else {
-
-//            先处理被关联的员工
-            updateEmployeeByPosId(id);
-
-            //        执行删除操作
-            int i = positionMapper.deletePositionById(id);
-            if (i == 1) {
-                return RespBean.success("删除职位成功！！！");
+            int numByEmpPosId = employeeMapper.getNumByEmpPosId(id);
+            if (0 == numByEmpPosId) {
+//                执行删除操作
+                int i = positionMapper.deletePositionById(id);
+                if (i == 1) {
+                    return RespBean.success("此职位没有关联任何员工已成功删除！！！");
+                } else {
+                    return RespBean.error("删除失败！！！");
+                }
             } else {
-                return RespBean.error("删除职位失败！！！");
+//         处理关联员工   职称删除将相关职位员工职称信息设置为null
+                int i1 = employeeMapper.updateEmployeeByPosId(id);
+                if (i1 == numByEmpPosId) {
+                    //        执行删除操作
+                    int i = positionMapper.deletePositionById(id);
+                    if (i == 1) {
+                        return RespBean.success("职位删除成功并妥善处理关联员工！！！！！！");
+                    } else {
+                        return RespBean.error("删除失败！！！");
+                    }
+                } else {
+                    return RespBean.error("由于所关联员工没有妥善处理，删除失败！！！");
+                }
+
             }
         }
+
     }
 
     /**
@@ -120,21 +134,37 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public RespBean deletePositionsByIds(String[] ids) {
+
         if (ids == null || ids.length == 0) {
             return RespBean.error("请选择要删除的职位！！！");
         } else {
-
-//
-            employeeMapper.updateEmployeeByPosIds(ids);
-            //        执行删除操作
-            int i = positionMapper.deletePositionsByIds(ids);
-//            删除操作结果判断
-            if (i == ids.length) {
-                return RespBean.success("删除成功！！！");
+            int numByEmpPosIds = employeeMapper.getNumByEmpPosIds(ids);
+            if (0 == numByEmpPosIds) {
+//                执行删除操作
+                int i = positionMapper.deletePositionsByIds(ids);
+                if (i == ids.length) {
+                    return RespBean.success("所选职位没有关联任何员工已成功删除！！！");
+                } else {
+                    return RespBean.error("删除失败！！！");
+                }
             } else {
-                return RespBean.error("删除失败！！！");
+//         处理关联员工   职称删除将相关职位员工职称信息设置为null
+                int i1 = employeeMapper.updateEmployeeByPosIds(ids);
+                if (i1 == numByEmpPosIds) {
+                    //        执行删除操作
+                    int i = positionMapper.deletePositionsByIds(ids);
+                    if (i == ids.length) {
+                        return RespBean.success("所选职位删除成功并妥善处理关联员工！！！！！！");
+                    } else {
+                        return RespBean.error("删除失败！！！");
+                    }
+                } else {
+                    return RespBean.error("由于所关联员工没有妥善处理，删除失败！！！");
+                }
+
             }
         }
+
     }
 
     /**

@@ -81,6 +81,7 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
         }
     }
 
+
     /**
      * 单条职称删除
      * @param id
@@ -93,16 +94,29 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
         if (id == null) {
             return RespBean.error("请选择要删除的职称！！！");
         } else {
-
-//         处理关联员工   职称删除将相关职位员工职称信息设置为null
-            employeeMapper.updateEmployeeByJobLevelId(id);
-
-            //        执行删除操作
-            int i = joblevelMapper.deleteSingleJoblevelById(id);
-            if (i == 1) {
-                return RespBean.success("删除成功！！！");
+            int numByEmpJoblevleId = employeeMapper.getNumByEmpJoblevleId(id);
+            if (0 == numByEmpJoblevleId) {
+                int i = joblevelMapper.deleteSingleJoblevelById(id);
+                if (i == 1) {
+                    return RespBean.success("此职称没有关联任何员工已成功删除！！！");
+                } else {
+                    return RespBean.error("删除失败！！！");
+                }
             } else {
-                return RespBean.error("删除失败！！！");
+                //         处理关联员工   职称删除将相关职位员工职称信息设置为null 并返回成功处理的数量
+                int i1 = employeeMapper.updateEmployeeByJobLevelId(id);
+                if (i1 == numByEmpJoblevleId) {
+                    //        执行删除操作
+                    int i = joblevelMapper.deleteSingleJoblevelById(id);
+                    if (i == 1) {
+                        return RespBean.success("职称删除成功并妥善处理关联员工！！！！！！");
+                    } else {
+                        return RespBean.error("删除失败！！！");
+                    }
+                } else {
+                    return RespBean.error("由于所关联员工没有妥善处理，删除失败！！！");
+                }
+
             }
         }
 
@@ -115,23 +129,50 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public RespBean deleteBatchJoblevelByIds(String[] ids) {
+//        如果前台没有传入id，提醒前台传入
         if (ids == null || ids.length == 0) {
             return RespBean.error("请选择要删除的职称！！！");
-        } else {
-
-            //     处理关联员工   职称删除将相关职位员工职称信息设置为null
-            employeeMapper.updateEmployeeByJobLevelIds(ids);
-
-            //        执行删除操作
-            int i = joblevelMapper.deleteBatchJoblevelByIds(ids);
-
-            if (i == ids.length) {
-                return RespBean.success("删除成功！！！");
+        }
+//        前台传入了id
+        else {
+//            通过前台传入id 查询所有相关员工的数量
+            int numByEmpJoblevleIds = employeeMapper.getNumByEmpJoblevleIds(ids);
+            if (0 == numByEmpJoblevleIds) {
+//                执行删除操作
+                int i = joblevelMapper.deleteBatchJoblevelByIds(ids);
+                if (i == ids.length) {
+                    return RespBean.success("所选职称中没有关联任何员工已成功删除！！！");
+                } else {
+                    return RespBean.error("删除失败！！！");
+                }
             } else {
-                return RespBean.error("删除失败！！！");
+                //     处理关联员工   职称删除将相关职位员工职称信息设置为null
+                int num= employeeMapper.updateEmployeeByJobLevelIds(ids);
+//               如果更处理的员工数量与关林的数量相同执行删除操作
+                if (num==numByEmpJoblevleIds){
+                    //        执行删除操作
+                    int i = joblevelMapper.deleteBatchJoblevelByIds(ids);
+//                    如果删除职称的数量与前台传过来的数量一样  删除成功
+                    return getRespBean(ids, i);
+                }
+//                否则返回前台删除失败
+                else {
+                    return RespBean.error("由于选中的职位中所关联员工没有妥善处理，删除失败！！！");
+                }
+
             }
         }
 
+    }
+
+    private RespBean getRespBean(String[] ids, int i) {
+        if (i == ids.length) {
+            return RespBean.success("所选职称已成功删除，并妥善处理所关联员工！！！！！！");
+        }
+//                    否则删除失败
+        else {
+            return RespBean.error("删除失败！！！");
+        }
     }
 
     /**
