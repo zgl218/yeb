@@ -1,5 +1,6 @@
 package com.yy.yeb.service;
 
+import com.yy.yeb.pojo.RespBean;
 import com.yy.yeb.pojo.Role;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -15,5 +16,22 @@ import java.util.List;
  */
 public interface IRoleService extends IService<Role> {
 
+    /**
+     * 查询所有的角色权限
+     * @return
+     */
     public List<Role> getRoles();
+
+    /**
+     * 添加角色权限
+     * @return
+     */
+    RespBean addRoles(Role role);
+
+    /**
+     * 删除用户角色权限
+     * @param id
+     * @return
+     */
+    Boolean deleteRoles(Integer id);
 }
