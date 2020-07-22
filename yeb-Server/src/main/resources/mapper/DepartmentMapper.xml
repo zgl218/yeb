@@ -16,6 +16,13 @@
     <sql id="Base_Column_List">
         id, name, parentId, depPath, enabled, isParent
     </sql>
+    <insert id="addDepartment">
+
+        insert into t_department (
+        <include refid="Base_Column_List">
+        </include>)
+        values (#{id},#{name},#{parentId},#{depPath},#{enabled},#{isParent})
+    </insert>
     <select id="queryAllDepartment" resultType="com.yy.yeb.pojo.Department">
         select * from t_department
     </select>

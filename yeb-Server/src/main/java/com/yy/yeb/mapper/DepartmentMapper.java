@@ -2,6 +2,7 @@ package com.yy.yeb.mapper;
 
 import com.yy.yeb.pojo.Department;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.yy.yeb.pojo.RespBean;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface DepartmentMapper extends BaseMapper<Department> {
 
 //    查询所有部门
     List<Department> queryAllDepartment();
+
+    int addDepartment(Department department);
 }

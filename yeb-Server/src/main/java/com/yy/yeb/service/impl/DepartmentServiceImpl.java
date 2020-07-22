@@ -2,6 +2,7 @@ package com.yy.yeb.service.impl;
 
 import com.yy.yeb.pojo.Department;
 import com.yy.yeb.mapper.DepartmentMapper;
+import com.yy.yeb.pojo.RespBean;
 import com.yy.yeb.service.IDepartmentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -36,15 +37,16 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 
         // 所有的一级部门
         List<Department> resultList = new ArrayList<>();
+
 //        创建一个map容器
         Map<Integer, Object> tree = new HashMap<>();
 
 //        声明树结构
-        Object itemTree;
+//        Object itemTree;
         System.out.println(deptMenus.size());
         // 将部门存储在map中,key为部门id
         for (int i = 0; i < deptMenus.size() && !deptMenus.isEmpty(); i++) {
-            itemTree = deptMenus.get(i);
+//            itemTree = deptMenus.get(i);
             System.out.println(deptMenus.get(i).getId()+"============================"+ deptMenus.get(i));
             // 把所有的数据都放到map中
             tree.put(deptMenus.get(i).getId(), deptMenus.get(i));
@@ -54,8 +56,8 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         for (int i = 0; i < deptMenus.size(); i++) {
             // 优点1：整个方法，只查询了一次数据库
             // 优点2：不用知道顶层节点的id
-            System.out.println(deptMenus.get(i).getParentId());
-            System.out.println(tree.containsKey(deptMenus.get(i).getParentId()));
+            System.out.println("父id：：："+deptMenus.get(i).getParentId());
+            System.out.println("父id是否在树map里：：："+tree.containsKey(deptMenus.get(i).getParentId()));
             if (!tree.containsKey(deptMenus.get(i).getParentId())) {
                 // 我们在存储的时候就是将元素的id为键，元素本身为值存入的
                 // 以元素的父id为键，在map里取值，若取不到则，对应的元素不存在，即没有父节点，为顶层节点或游离节点
@@ -65,7 +67,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         }
 
         for (Department dep :resultList) {
-            System.out.println(dep);
+            System.out.println("resultList:::::::::"+dep);
         }
 
         // 循环数据，将数据放到该节点的父节点的children属性中
@@ -88,6 +90,20 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         }
 
         return resultList;
+    }
+
+    @Override
+    public RespBean addDepartment(Department department) {
+        System.out.println(department);
+
+        int i = departmentMapper.addDepartment(department);
+        if (i==1){
+            return RespBean.success("添加成功！!!!!!!!!");
+        }
+        else {
+            return RespBean.error("添加失败！!!!!!!!!");
+        }
+
     }
 
 

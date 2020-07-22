@@ -2,6 +2,7 @@ package com.yy.yeb.service;
 
 import com.yy.yeb.pojo.Department;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yy.yeb.pojo.RespBean;
 
 import java.util.List;
 
@@ -15,5 +16,10 @@ import java.util.List;
  */
 public interface IDepartmentService extends IService<Department> {
 
+//    查询部门
     List<Department> queryAllDepartment();
+
+//    添加部门
+    RespBean addDepartment(Department department);
+
 }
