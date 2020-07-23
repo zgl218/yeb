@@ -97,6 +97,10 @@
     </delete>
 
 
+    <insert id="insert" parameterType="com.yy.yeb.pojo.Employee">
+        insert into
+    </insert>
+
 
 
 </mapper>
