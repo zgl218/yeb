@@ -56,4 +56,6 @@ public interface RoleMapper extends BaseMapper<Role> {
      */
     @Delete("DELETE FROM t_role WHERE id = #{id}")
     int deleteRoleById(Integer id);
+
+    List<Role> getRoleData();
 }

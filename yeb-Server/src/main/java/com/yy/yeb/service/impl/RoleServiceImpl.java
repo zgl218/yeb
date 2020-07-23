@@ -108,6 +108,12 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         return true;
     }
 
+    @Override
+    public List<Role> getRoleData() {
+
+        return roleMapper.getRoleData();
+    }
+
     /**
      * 查询该用户角色下是否有存在用户使用
      * @param rid 角色ID

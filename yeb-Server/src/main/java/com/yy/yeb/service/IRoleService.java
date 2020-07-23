@@ -34,4 +34,10 @@ public interface IRoleService extends IService<Role> {
      * @return
      */
     Boolean deleteRoles(Integer id);
+
+    /**
+     * 加载角色列表
+     * @return
+     */
+    List<Role> getRoleData();
 }

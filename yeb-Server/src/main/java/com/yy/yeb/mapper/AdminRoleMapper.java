@@ -3,6 +3,8 @@ package com.yy.yeb.mapper;
 import com.yy.yeb.pojo.AdminRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -13,4 +15,25 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface AdminRoleMapper extends BaseMapper<AdminRole> {
 
+    /**
+     * 用户拥有的角色数量
+     * @param adminId
+     * @return
+     */
+    Integer countAdminRoleByAdminId(Integer adminId);
+
+
+    /**
+     * 删除所有的用户数量
+     * @param adminId
+     * @return
+     */
+    int deleteAdminRoleByAdminId(Integer adminId);
+
+    /**
+     * 添加重新选择的角色
+     * @param adminRoles
+     * @return
+     */
+    Integer insertBatch(List<AdminRole> adminRoles);
 }

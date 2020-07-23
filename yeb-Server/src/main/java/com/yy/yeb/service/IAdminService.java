@@ -1,12 +1,11 @@
 package com.yy.yeb.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.yy.yeb.pojo.Admin;
-import com.yy.yeb.pojo.RespBean;
-import com.yy.yeb.pojo.Role;
+import com.yy.yeb.pojo.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -40,4 +39,37 @@ public interface IAdminService extends IService<Admin> {
      * @return
      */
     List<Role> getRoles(Integer adminId);
+
+    /**
+     * 初始化界面
+     * @param keywords
+     * @return
+     */
+    Map<String,Admin> getAdminAndOperating(String keywords);
+
+
+    /**
+     * 关闭用户
+     * @param admin
+     * @return
+     */
+    Integer enabledChangeClose(Map<String,Object> admin);
+
+    /**
+     * 开启用户
+     * @param admin
+     * @return
+     */
+    Integer enabledChangeOpen(Map<String, Object> admin);
+
+    /**
+     * 根据用户id删除用户
+     * @param adminId
+     * @return
+     */
+    Integer deleteAdminById(Integer adminId);
+
+    RespBean updateAdmin(AdminUserDetail adminUserDetail);
+
+    RespBean updatePass(PassWordDetail passWordDetail);
 }

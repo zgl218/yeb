@@ -12,5 +12,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-07-17
  */
 public interface IAdminRoleService extends IService<AdminRole> {
-
+    /**
+     * 用户角色关系
+     * @param adminId
+     * @param roleIds
+     * @return
+     */
+    void relationAdminRoles(Integer adminId, String[] roleIds);
 }

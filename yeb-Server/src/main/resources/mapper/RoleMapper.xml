@@ -46,5 +46,9 @@
         WHERE
         nameZh=#{roleNameZh}
     </select>
+    <select id="getRoleData" resultType="com.yy.yeb.pojo.Role">
+
+        select * from t_role
+    </select>
 
 </mapper>

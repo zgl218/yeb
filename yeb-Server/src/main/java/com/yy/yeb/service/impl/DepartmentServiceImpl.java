@@ -41,13 +41,9 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 //        创建一个map容器
         Map<Integer, Object> tree = new HashMap<>();
 
-//        声明树结构
-//        Object itemTree;
         System.out.println(deptMenus.size());
         // 将部门存储在map中,key为部门id
         for (int i = 0; i < deptMenus.size() && !deptMenus.isEmpty(); i++) {
-//            itemTree = deptMenus.get(i);
-            System.out.println(deptMenus.get(i).getId()+"============================"+ deptMenus.get(i));
             // 把所有的数据都放到map中
             tree.put(deptMenus.get(i).getId(), deptMenus.get(i));
         }
@@ -66,12 +62,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
             }
         }
 
-        for (Department dep :resultList) {
-            System.out.println("resultList:::::::::"+dep);
-        }
-
         // 循环数据，将数据放到该节点的父节点的children属性中
-        System.out.println("========="+!deptMenus.isEmpty());
         for (int i = 0; i < deptMenus.size() && !deptMenus.isEmpty(); i++) {
             // 数据库中，若一个元素有子节点，那么，该元素的id为子节点的父id
             //treeMap.get(tbCategories.get(i).getParentId()); // 从map集合中找到父节点

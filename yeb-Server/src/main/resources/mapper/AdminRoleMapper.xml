@@ -14,4 +14,32 @@
         id, adminId, rid
     </sql>
 
+
+    <!--用户的角色数量-->
+    <select id="countAdminRoleByAdminId" parameterType="int" resultType="java.lang.Integer">
+        SELECT
+	        count( 1 )
+        FROM
+	        t_admin_role
+        WHERE
+	        adminId = #{adminId}
+    </select>
+    <!--删除该用户的所有角色-->
+    <delete id="deleteAdminRoleByAdminId" parameterType="int">
+        DELETE
+        FROM
+	        t_admin_role
+        WHERE
+	        adminId = #{adminId}
+    </delete>
+
+    <!--添加角色-->
+    <insert id="insertBatch" parameterType="list">
+        INSERT INTO t_admin_role(adminId, rid) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.adminId},#{item.rid})
+        </foreach>
+    </insert>
+
+
 </mapper>

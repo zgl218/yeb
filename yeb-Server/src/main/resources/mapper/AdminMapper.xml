@@ -15,10 +15,106 @@
         <result column="userFace" property="userFace" />
         <result column="remark" property="remark" />
     </resultMap>
+    <resultMap id="BaseResultMaps" type="com.yy.yeb.pojo.Admin" extends="BaseResultMap">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="phone" property="phone" />
+        <result column="telephone" property="telephone" />
+        <result column="address" property="address" />
+        <result column="enabled" property="enabled" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="userFace" property="userFace" />
+        <result column="remark" property="remark" />
+    </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, name, phone, telephone, address, enabled, username, password, userFace, remark
     </sql>
+    <!--删除用户用户信息-->
+    <delete id="deleteAdminById" parameterType="integer">
+        DELETE
+        FROM
+            t_admin
+        WHERE
+            id = #{adminId}
+    </delete>
+
+    <!--查询用户信息-->
+    <select id="operatingTheAdmin" resultType="com.yy.yeb.pojo.Admin">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        t_admin
+        WHERE
+        id != (
+        SELECT
+        aid.id
+        FROM
+        t_admin aid
+        LEFT JOIN t_admin_role AS ar ON ar.adminId = aid.id
+        WHERE ar.rid = 6
+        )
+        <if test="null !=name and name!=''">
+            AND name like concat('%',#{keywords},'%')
+        </if>
+
+    </select>
+
+    <!--更新用户状态-->
+    <update id="enabledChangeCloseById" parameterType="com.yy.yeb.pojo.Admin">
+        UPDATE
+            t_admin
+        SET
+            enabled = 0
+        WHERE
+            enabled=1 AND id = #{adminId}
+    </update>
+    <update id="enabledChangeOpenById" parameterType="com.yy.yeb.pojo.Admin">
+        UPDATE
+            t_admin
+        SET
+            enabled = 1
+        WHERE
+            enabled=0 AND id = #{adminId}
+    </update>
+
+
+
+    <!--修改用户信息-->
+    <update id="updateByDetail" parameterType="com.yy.yeb.pojo.AdminUserDetail">
+        update t_admin
+        <set>
+            <if test="name != null and name != '' ">
+                name = #{name},
+            </if>
+            <if test="phone != null and phone != '' ">
+                phone = #{phone},
+            </if>
+            <if test="telephone != null and telephone != '' ">
+                telephone = #{telephone},
+            </if>
+            <if test="address != null and address != '' ">
+                address = #{address},
+            </if>
+        </set>
+        where id = #{id};
+    </update>
+
+    <!-- 通过id查找密码 -->
+    <select id="selectPasswordById" parameterType="Integer" resultType="String">
+        select password from t_admin where id = #{id};
+    </select>
+
+    <update id="updatePassword" parameterType="com.yy.yeb.pojo.PassWordDetail">
+        update t_admin
+        <set>
+            <if test="checkPass != null and checkPass != '' ">
+                password = #{checkPass}
+            </if>
+        </set>
+        where id = #{adminId};
+    </update>
 
 </mapper>
