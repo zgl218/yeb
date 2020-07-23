@@ -6,8 +6,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
-import java.util.List;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -38,6 +36,9 @@ public class Employee implements Serializable {
     @ApiModelProperty(value = "员工姓名")
     private String name;
 
+    @ApiModelProperty(value = "工号")
+    private String workID;
+
     @ApiModelProperty(value = "性别")
     private String gender;
 
@@ -51,13 +52,17 @@ public class Employee implements Serializable {
     private String wedlock;
 
     @ApiModelProperty(value = "民族")
-    private Integer nationId;
+//    @TableField(exist = false)
+//    private String nationId;
+    private String nationName;
 
     @ApiModelProperty(value = "籍贯")
     private String nativePlace;
 
     @ApiModelProperty(value = "政治面貌")
-    private Integer politicId;
+//    @TableField(exist = false)
+//    private String politicId;
+    private String politicsStatusName;
 
     @ApiModelProperty(value = "邮箱")
     private String email;
@@ -69,13 +74,20 @@ public class Employee implements Serializable {
     private String address;
 
     @ApiModelProperty(value = "所属部门")
-    private Integer departmentId;
+//    @TableField(exist = false)
+//    private String departmentId;
+
+    private String departmentName;
 
     @ApiModelProperty(value = "职称ID")
-    private Integer jobLevelId;
+//    @TableField(exist = false)
+//    private String jobLevelId;
+    private String joblevelName;
 
     @ApiModelProperty(value = "职位ID")
-    private Integer posId;
+//    @TableField(exist = false)
+//    private String posId;
+    private String positionName;
 
     @ApiModelProperty(value = "聘用形式")
     private String engageForm;
@@ -83,23 +95,18 @@ public class Employee implements Serializable {
     @ApiModelProperty(value = "最高学历")
     private String tiptopDegree;
 
-    @ApiModelProperty(value = "所属专业")
-    private String specialty;
 
     @ApiModelProperty(value = "毕业院校")
     private String school;
 
-    @ApiModelProperty(value = "入职日期")
-    private LocalDate beginDate;
+    @ApiModelProperty(value = "所属专业")
+    private String specialty;
 
     @ApiModelProperty(value = "在职状态")
     private String workState;
 
-    @ApiModelProperty(value = "工号")
-    private String workID;
-
-    @ApiModelProperty(value = "合同期限")
-    private Double contractTerm;
+    @ApiModelProperty(value = "入职日期")
+    private LocalDate beginDate;
 
     @ApiModelProperty(value = "转正日期")
     private LocalDate conversionTime;
@@ -113,10 +120,7 @@ public class Employee implements Serializable {
     @ApiModelProperty(value = "合同终止日期")
     private LocalDate endContract;
 
-    @ApiModelProperty(value = "工龄")
-    private Integer workAge;
-
-    @ApiModelProperty(value = "工资账套ID")
-    private Integer salaryId;
+    @ApiModelProperty(value = "合同期限")
+    private Double contractTerm;
 
 }

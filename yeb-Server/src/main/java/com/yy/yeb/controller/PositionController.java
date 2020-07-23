@@ -19,7 +19,6 @@ import java.util.List;
  * @since 2020-07-17
  */
 @RestController
-//@RequestMapping("/position")
 @RequestMapping("/system/basic")
 public class PositionController {
     @Autowired
