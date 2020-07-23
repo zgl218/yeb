@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-07-17
  */
 @RestController
-@RequestMapping("/sys-msg")
-public class SysMsgController {
+@RequestMapping("/sys-msg-content")
+public class SysMsgContentController {
 
 }

@@ -1,10 +1,8 @@
 package com.yy.yeb.mapper;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yy.yeb.pojo.Employee;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.yy.yeb.query.EmployeeQuery;
+
 import java.util.List;
 
 /**
@@ -17,25 +15,40 @@ import java.util.List;
  */
 public interface EmployeeMapper extends BaseMapper<Employee> {
 
+//         处理关联员工   职位删除将相关职位员工职位信息设置为null
+    int updateEmployeeByPosId(Integer id);
+
+//         处理关联员工   职位删除将相关职位员工职位信息设置为null
+    int updateEmployeeByPosIds(String[] ids);
+
+//         处理关联员工   职位删除将相关职位员工职称信息设置为null
+    int updateEmployeeByJobLevelId(Integer id);
+//         处理关联员工   职位删除将相关职位员工职称信息设置为null
+    int updateEmployeeByJobLevelIds(String[] ids);
     /**
-     * 通过员工名查询员工对象
-     * @param name
+     * 根据单个职称id查询关联员工数量
+     * @param id
      * @return
      */
-    Employee queryEmployeeByName(String name);
+    int getNumByEmpJoblevleId(Integer id);
 
-//    Employee queryEmployeeByParams(String )
     /**
-     * 查询 : 根据id查询员工列表，分页显示
-     *
-     * @param
-     * @param
+     * 根据多个职称id查询关联员工数量
+     * @param ids
      * @return
      */
-//    IPage<Employee> selectEmployeeAll(Page<?> page,Integer id);
+    int getNumByEmpJoblevleIds(String[] ids);
 
-//    Object selectEmployeeAll(EmployeeQuery employeeQuery);
-
-    List<Employee> selectEmployeeAll();
-//    List<Map<String, Object>> queryAllEmployee();
+    /**
+     * 根据单个职位id查询关联员工数量
+     * @param id
+     * @return
+     */
+    int getNumByEmpPosId(Integer id);
+    /**
+     * 根据多个职位id查询关联员工数量
+     * @param ids
+     * @return
+     */
+    int getNumByEmpPosIds(String[] ids);
 }
