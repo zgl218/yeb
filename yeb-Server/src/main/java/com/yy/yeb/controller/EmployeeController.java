@@ -46,8 +46,4 @@ public class EmployeeController {
     public int deleteEmployeeById(@PathVariable Integer id) {
         return employeeService.deletePositionById(id);
     }
-
-
-
-
 }
