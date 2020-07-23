@@ -2,19 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yy.yeb.mapper.EmployeeMapper">
 
-
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.yy.yeb.pojo.Employee">
+    <resultMap id="BaseResultMap" type="com.yy.yeb.pojo.Employee" >
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="gender" property="gender" />
         <result column="birthday" property="birthday" />
         <result column="idCard" property="idCard" />
         <result column="wedlock" property="wedlock" />
+        <result column="nationId" property="nationId" />
         <result column="nativePlace" property="nativePlace" />
+        <result column="politicId" property="politicId" />
         <result column="email" property="email" />
         <result column="phone" property="phone" />
         <result column="address" property="address" />
+        <result column="departmentId" property="departmentId" />
+        <result column="jobLevelId" property="jobLevelId" />
+        <result column="posId" property="posId" />
         <result column="engageForm" property="engageForm" />
         <result column="tiptopDegree" property="tiptopDegree" />
         <result column="specialty" property="specialty" />
@@ -24,79 +28,75 @@
         <result column="workID" property="workID" />
         <result column="contractTerm" property="contractTerm" />
         <result column="conversionTime" property="conversionTime" />
+        <result column="notWorkDate" property="notWorkDate" />
         <result column="beginContract" property="beginContract" />
         <result column="endContract" property="endContract" />
-        <association property="nationName"  javaType="com.yy.yeb.pojo.Nation" >
-            <result column="nationName" property="name"/>
-        </association>
-        <association property="politicsStatusName" javaType="com.yy.yeb.pojo.PoliticsStatus">
-            <result column="politicsStatusName" property="name"/>
-        </association>
-        <association property="departmentName" javaType="com.yy.yeb.pojo.Department">
-            <result column="departmentName" property="name"/>
-        </association>
-        <association property="joblevelName" javaType="com.yy.yeb.pojo.Joblevel">
-            <result column="joblevelName" property="name"/>
-        </association>
-        <association property="positionName" javaType="com.yy.yeb.pojo.Position">
-            <result column="positionName" property="name"/>
-        </association>
+        <result column="workAge" property="workAge" />
+        <result column="salaryId" property="salaryId" />
     </resultMap>
-
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, gender, birthday, idCard, wedlock, nativePlace, email, phone, address, engageForm, tiptopDegree, specialty, school, beginDate, workState, workID, contractTerm, conversionTime, notWorkDate, beginContract, endContract, workAge, salaryId
+        id, name, gender, birthday, idCard, wedlock, nationId, nativePlace, politicId, email, phone, address, departmentId, jobLevelId, posId, engageForm, tiptopDegree, specialty, school, beginDate, workState, workID, contractTerm, conversionTime, notWorkDate, beginContract, endContract, workAge, salaryId
     </sql>
 
+<!--    职位删除将相关职位员工职位信息设置为null-->
+    <update id="updateEmployeeByPosId">
+        update t_employee set posId = null where posId=#{id};
+    </update>
 
-    <!--五表联查员工信息-->
-    <select id="selectEmployeeAll" parameterType="com.yy.yeb.base.BaseQuery" resultType="com.yy.yeb.pojo.Employee">
-        select
-        e.*,
-        n.name AS nationName,
-        p.name AS politicsStatusName,
-        d.name AS departmentName,
-        j.name AS joblevelName,
-        po.name AS positionName
-        from t_employee e
-        left join t_nation n on e.nationId = n.id
-        left join t_politics_status p on e.politicId = p.id
-        left join t_department d on e.departmentId = d.id
-        left join t_joblevel j on e.joblevelId = j.id
-        left join t_position po on e.posId = po.id
-        <where>
-            <if test="name != null and name != ''">
-                and name like concat(%,#{name},'%')
-            </if>
-        </where>
+<!--  职位删除将相关职位员工职位信息设置为null  -->
+    <update id="updateEmployeeByPosIds">
+        update t_employee set posId = null
+        where posId in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+
+    </update>
+
+<!--    处理关联员工   职位删除将相关职位员工职称信息设置为null-->
+    <update id="updateEmployeeByJobLevelId">
+      update t_employee set jobLevelId = null where jobLevelId=#{id};
+    </update>
+
+    <!--    处理关联员工   职位删除将相关职位员工职称信息设置为null-->
+    <update id="updateEmployeeByJobLevelIds">
+        update t_employee set jobLevelId = null
+        where jobLevelId in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+
+    </update>
+
+<!--    根据单个职称id查询关联员工数量-->
+    <select id="getNumByEmpJoblevleId" resultType="java.lang.Integer">
+
+        select count(1) from  t_employee where jobLevelId = #{id}
+
     </select>
+<!--    根据多个职称id查询关联员工数量-->
+    <select id="getNumByEmpJoblevleIds" resultType="java.lang.Integer">
+        select count(1) from  t_employee where jobLevelId in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
 
-<!--通过员工名字搜索员工信息-->
-    <select id="queryEmployeeByName" parameterType="com.yy.yeb.base.BaseQuery" resultType="com.yy.yeb.pojo.Employee">
-        select
-        e.*,
-        n.name AS nationName,
-        p.name AS politicsStatusName,
-        d.name AS departmentName,
-        j.name AS joblevelName,
-        po.name AS positionName
-        from t_employee e
-        left join t_nation n on e.nationId = n.id
-        left join t_politics_status p on e.politicId = p.id
-        left join t_department d on e.departmentId = d.id
-        left join t_joblevel j on e.joblevelId = j.id
-        left join t_position po on e.posId = po.id
-        where
-            e.name = #{name}
     </select>
+<!--    根据单个职位id查询关联员工数量-->
+    <select id="getNumByEmpPosId" resultType="java.lang.Integer">
 
-<!--    通过员工id删除员工信息-->
-    <delete id="deleteById" parameterType="java.lang.Integer">
-        delete from t_employee
-        where e.id = #{id}
-    </delete>
+        select count(1) from  t_employee where posId = #{id}
 
+    </select>
+<!--    根据多个职位id查询关联员工数量-->
+    <select id="getNumByEmpPosIds" resultType="java.lang.Integer">
 
+        select count(1) from  t_employee where posId in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
 
 
 </mapper>
