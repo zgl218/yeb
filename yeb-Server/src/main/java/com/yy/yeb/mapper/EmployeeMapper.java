@@ -1,7 +1,11 @@
 package com.yy.yeb.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yy.yeb.pojo.Employee;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.yy.yeb.query.QueryEmployee;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -51,4 +55,44 @@ public interface EmployeeMapper extends BaseMapper<Employee> {
      * @return
      */
     int getNumByEmpPosIds(String[] ids);
+
+    //处理关联员工
+    void updateEmployeeSalaryId(Integer id);
+
+    //处理多名关联员工
+    void updateEmploySalaryIds(String[] ids);
+
+
+    /**
+     * 通过员工名查询员工对象
+     * @param name
+     * @return
+     */
+//    Employee queryEmployeeByName(String name);
+
+//    Employee queryEmployeeByParams(String )
+    /**
+     * 查询 : 根据id查询员工列表，分页显示
+     *
+     * @param
+     * @param
+     * @return
+     */
+//    IPage<Employee> selectEmployeeAll(Page<?> page,Integer id);
+
+//    Object selectEmployeeAll(EmployeeQuery employeeQuery);
+
+
+    String selectMaxWorkId();
+
+    Employee selectByName(String name);
+
+    IPage<Employee> selectEmployeeAll(@Param("page") Page page, @Param("queryEmployee") QueryEmployee queryEmployee);
+
+    Integer insertEmployeeByEmp(Employee employee);
+
+    Integer updateEmployeeByEmp(Employee employee);
+
+//    int selectCountEmp();
+//    List<Map<String, Object>> queryAllEmployee();
 }

@@ -24,5 +24,39 @@
     <sql id="Base_Column_List">
         id, basicSalary, bonus, lunchSalary, trafficSalary, allSalary, pensionBase, pensionPer, createDate, medicalBase, medicalPer, accumulationFundBase, accumulationFundPer, name
     </sql>
-
+    <!-- 查询薪资账套-->
+    <select id="querySalary" resultType="com.yy.yeb.pojo.Salary">
+        select * from t_salary
+    </select>
+    <!--根据用户名查询薪资账套 -->
+    <select id="querySalaryByName" resultType="com.yy.yeb.pojo.Salary">
+        select * from t_salary where name=#{name}
+    </select>
+    <!-- 添加薪资账套-->
+    <insert id="addSalary">
+        insert into t_salary (
+        <include refid="Base_Column_List">
+        </include>)
+        values (#{id},#{basicSalary},#{bonus},#{lunchSalary},#{trafficSalary},#{allSalary},#{pensionBase},#{pensionPer},#{createDate},#{medicalBase},#{medicalPer},#{accumulationFundBase},#{accumulationFundPer},#{name})
+    </insert>
+    <!-- 修改薪资账套-->
+    <update id="updateSalary" >
+    update
+    t_salary
+    set
+     id=#{id},name =#{name},basicSalary =#{bonus},lunchSalary =#{lunchSalary},trafficSalary=#{pensionBase},pensionBase=#{pensiionBase},pensionPer=#{pensionPer},createDate=#{createDate},medicalBase=#{medicalBase},medicalPer=#{medicalPer},accumulationFundBase=#{accumulationFundBase},accumulationFundPer=#{accumulationFundPer}
+    where
+    id = #{id}
+</update>
+    <!-- 删除薪资账套-->
+    <delete id="deleteSalaryById">
+        delete from t_salary where id =#{id}
+    </delete>
+    <!-- 删除多个薪资账套-->
+    <delete id="deleteSalaryByIds">
+        delete  from t_salary where
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

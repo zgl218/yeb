@@ -16,6 +16,16 @@
     <sql id="Base_Column_List">
         id, name, parentId, depPath, enabled, isParent
     </sql>
+<!--    <insert id="addDepartment">-->
+
+<!--        insert into t_department (-->
+<!--        <include refid="Base_Column_List">-->
+<!--        </include>)-->
+<!--        values (#{id},#{name},#{parentId},#{depPath},#{enabled},#{isParent})-->
+<!--    </insert>-->
+<!--    <select id="queryAllDepartment" resultType="com.yy.yeb.pojo.Department">-->
+<!--        select * from t_department-->
+<!--    </select>-->
     <insert id="addDepartment">
 
         insert into t_department (
@@ -23,8 +33,20 @@
         </include>)
         values (#{id},#{name},#{parentId},#{depPath},#{enabled},#{isParent})
     </insert>
+    <delete id="deleteDepartmentById">
+        delete from t_department where id=#{id}
+    </delete>
     <select id="queryAllDepartment" resultType="com.yy.yeb.pojo.Department">
         select * from t_department
+    </select>
+    <select id="getdepartmentByName" resultType="com.yy.yeb.pojo.Department">
+        select * from t_department where name =#{name}
+    </select>
+    <select id="getNumByEmpDepId" resultType="java.lang.Integer">
+
+
+
+
     </select>
 
 </mapper>

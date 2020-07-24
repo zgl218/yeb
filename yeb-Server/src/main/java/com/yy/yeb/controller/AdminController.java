@@ -31,6 +31,7 @@ public class AdminController {
     @ApiOperation(value = "修改信息")
     @PutMapping("/info")
     public RespBean updateAdmin(@RequestBody AdminUserDetail adminUserDetail){
+        System.out.println();
         return adminService.updateAdmin(adminUserDetail);
     }
 

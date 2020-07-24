@@ -62,7 +62,7 @@
 
     </select>
 
-    <!--更新用户状态-->
+    <!--更新用户状态    关闭到启用-->
     <update id="enabledChangeCloseById" parameterType="com.yy.yeb.pojo.Admin">
         UPDATE
             t_admin
@@ -71,6 +71,7 @@
         WHERE
             enabled=1 AND id = #{adminId}
     </update>
+    <!--更新用户状态     启用到关闭-->
     <update id="enabledChangeOpenById" parameterType="com.yy.yeb.pojo.Admin">
         UPDATE
             t_admin

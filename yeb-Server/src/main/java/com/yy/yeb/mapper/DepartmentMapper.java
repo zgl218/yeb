@@ -16,8 +16,15 @@ import java.util.List;
  */
 public interface DepartmentMapper extends BaseMapper<Department> {
 
-//    查询所有部门
+    //    查询所有部门
     List<Department> queryAllDepartment();
 
     int addDepartment(Department department);
+
+
+    Department getdepartmentByName(String name);
+
+    public int deleteDepartmentById(Integer id);
+
+    int getNumByEmpDepId(Integer id);
 }

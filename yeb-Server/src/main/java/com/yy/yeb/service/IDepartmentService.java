@@ -16,10 +16,11 @@ import java.util.List;
  */
 public interface IDepartmentService extends IService<Department> {
 
-//    查询部门
+    //    查询部门
     List<Department> queryAllDepartment();
 
-//    添加部门
+    //    添加部门
     RespBean addDepartment(Department department);
 
+    public RespBean deleteDepartmentById(Integer id);
 }

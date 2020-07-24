@@ -33,41 +33,6 @@ public interface IAdminService extends IService<Admin> {
      */
     Admin getAdminByUserName(String username);
 
-    /**
-     * 根据用户获取角色列表
-     * @param adminId
-     * @return
-     */
-    List<Role> getRoles(Integer adminId);
-
-    /**
-     * 初始化界面
-     * @param keywords
-     * @return
-     */
-    Map<String,Admin> getAdminAndOperating(String keywords);
-
-
-    /**
-     * 关闭用户
-     * @param admin
-     * @return
-     */
-    Integer enabledChangeClose(Map<String,Object> admin);
-
-    /**
-     * 开启用户
-     * @param admin
-     * @return
-     */
-    Integer enabledChangeOpen(Map<String, Object> admin);
-
-    /**
-     * 根据用户id删除用户
-     * @param adminId
-     * @return
-     */
-    Integer deleteAdminById(Integer adminId);
 
     RespBean updateAdmin(AdminUserDetail adminUserDetail);
 

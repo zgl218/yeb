@@ -38,8 +38,10 @@ public class DepartmentController {
     public RespBean addDepartment(@RequestBody Department department){
         return departmentService.addDepartment(department);
     }
-
-
-
+    @ApiOperation(value = "部门删除")
+    @DeleteMapping("/department/{id}")
+    public RespBean deleteDepartmentById(@PathVariable Integer id){
+        return departmentService.deleteDepartmentById(id);
+    }
 
 }

@@ -31,7 +31,6 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 
 
     public List<Department> queryAllDepartment() {
-
         // 查询所有部门
         List<Department> deptMenus = departmentMapper.queryAllDepartment();
 
@@ -85,17 +84,43 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 
     @Override
     public RespBean addDepartment(Department department) {
-        System.out.println(department);
+
+
+        if (department.getName() == null || department.getName().trim() == "") {
+            return RespBean.error("请输入部门名称！！！");
+        } else {
+            Department departmentByName = departmentMapper.getdepartmentByName(department.getName());
+            if (departmentByName != null) {
+                return RespBean.error("部门已存在");
+            }
+
+        }
+
 
         int i = departmentMapper.addDepartment(department);
-        if (i==1){
+        if (i != 0) {
             return RespBean.success("添加成功！!!!!!!!!");
-        }
-        else {
+
+        } else {
             return RespBean.error("添加失败！!!!!!!!!");
         }
-
     }
 
+    @Override
+    public RespBean deleteDepartmentById(Integer id) {
+        if (id == null) {
+            return RespBean.error("请选择要选的部门");
+        } else {
+//            int numByEmpDepId = departmentMapper.getNumByEmpDepId(id);
+//            if (0 == numByEmpDepId) {
+//                执行删除操作
+                int i = departmentMapper.deleteDepartmentById(id);
+                if (i == 1) {
+                    return RespBean.success("已成功删除！！！");
+                }
+            }
+            return RespBean.success("已成功删除！！！");
+        }
+//    }
 
 }

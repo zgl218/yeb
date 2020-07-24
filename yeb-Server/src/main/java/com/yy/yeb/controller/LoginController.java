@@ -3,6 +3,7 @@ package com.yy.yeb.controller;
 import com.yy.yeb.pojo.Admin;
 import com.yy.yeb.pojo.AdminLoginParam;
 import com.yy.yeb.pojo.RespBean;
+import com.yy.yeb.service.IAdminRoleService;
 import com.yy.yeb.service.IAdminService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
@@ -25,7 +27,8 @@ public class LoginController {
 
     @Autowired
     private IAdminService adminService;
-
+    @Resource
+    private IAdminRoleService adminRoleService;
 
     @ApiOperation(value = "登录成功返回token")
     @PostMapping("/login")
@@ -42,7 +45,7 @@ public class LoginController {
         }
         Admin admin = adminService.getAdminByUserName(principal.getName());
         admin.setPassword(null);
-        admin.setRoles(adminService.getRoles(admin.getId()));
+        admin.setRoles(adminRoleService.getRoles(admin.getId()));
         return admin;
     }
 

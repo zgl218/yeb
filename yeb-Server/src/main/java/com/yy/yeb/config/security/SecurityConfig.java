@@ -1,6 +1,7 @@
 package com.yy.yeb.config.security;
 
 import com.yy.yeb.pojo.Admin;
+import com.yy.yeb.service.IAdminRoleService;
 import com.yy.yeb.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +30,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private IAdminService adminService;
+
+    @Autowired
+    private IAdminRoleService adminRoleService;
     @Autowired
     private RestFulAccessDeniedHandler restFulAccessDeniedHandler;
     @Autowired
@@ -56,8 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/webjars/**",
                 "/swagger-resources/**",
                 "/v2/api-docs/**",
-                "/captcha"
-//                "/joblevel"
+                "/captcha",
+                "/ws/**"
         );
     }
 
@@ -102,7 +106,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             if (null == admin) {
                 throw new UsernameNotFoundException("用户名或密码错误！");
             }
-            admin.setRoles(adminService.getRoles(admin.getId()));
+            admin.setRoles(adminRoleService.getRoles(admin.getId()));
             return admin;
         };
     }
