@@ -53,7 +53,7 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
     @Transactional(propagation = Propagation.REQUIRED)
     public RespBean addJoblevel(Joblevel joblevel) {
         joblevelMapper.continuousKey();
-        if (joblevel == null) {
+        if (joblevel == null || joblevel.getName() == "") {
             return RespBean.error("请输入要添加的职称");
         } else {
             Joblevel joblevelByName = joblevelMapper.getJoblevelByName(joblevel.getName());
@@ -147,9 +147,9 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelMapper, Joblevel> i
                 }
             } else {
                 //     处理关联员工   职称删除将相关职位员工职称信息设置为null
-                int num= employeeMapper.updateEmployeeByJobLevelIds(ids);
+                int num = employeeMapper.updateEmployeeByJobLevelIds(ids);
 //               如果更处理的员工数量与关林的数量相同执行删除操作
-                if (num==numByEmpJoblevleIds){
+                if (num == numByEmpJoblevleIds) {
                     //        执行删除操作
                     int i = joblevelMapper.deleteBatchJoblevelByIds(ids);
 //                    如果删除职称的数量与前台传过来的数量一样  删除成功

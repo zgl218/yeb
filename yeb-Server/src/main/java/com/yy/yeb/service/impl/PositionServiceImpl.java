@@ -45,7 +45,6 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
         return positionMapper.selectPositionAll();
     }
 
-
     /**
      * 添加职位
      * @param position 职位信息
@@ -116,14 +115,6 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position> i
             }
         }
 
-    }
-
-    /**
-     * 删除员工关联（posid设为null）
-     * @param id
-     */
-    private void updateEmployeeByPosId(Integer id) {
-        employeeMapper.updateEmployeeByPosId(id);
     }
 
     /**
